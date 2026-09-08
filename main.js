@@ -124,6 +124,9 @@ function enterWord() {
             key.classList.add(result);
         } else if (result == "correct") {
             key.classList.add(result);
+            if (key.classList.contains("missed")) {
+                key.classList.remove("missed");
+            }
         }
     });
 
