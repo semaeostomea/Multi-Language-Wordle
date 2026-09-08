@@ -122,7 +122,7 @@ function enterWord() {
         const key = document.querySelector(`.keyboard>#${letter}`);
         if (key.classList.length == 1) {
             key.classList.add(result);
-        } else if (!key.classList.contains("correct") && key.classList.contains("missed") && result == "correct") {
+        } else if (result == "correct") {
             key.classList.add(result);
         }
     });
