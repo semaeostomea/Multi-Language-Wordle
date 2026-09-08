@@ -1,0 +1,15 @@
+.en {
+    grid-template:
+        "q q w w e e r r t t y y u u i i o o p p" 1fr
+        ". a a s s d d f f g g h h j j k k l l ." 1fr
+        "enter enter enter z z x x c c v v b b n n m m delete delete delete" 1fr;
+    grid-template-columns: repeat(20, 1fr);
+}
+
+.de {
+    grid-template:
+        "q q w w e e r r t t z z u u i i o o p p ü ü" 1fr
+        "a a s s d d f f g g h h j j k k l l ö ö ä ä" 1fr
+        ". enter enter enter y y x x c c v v b b n n m m delete delete delete ." 1fr;
+    grid-template-columns: repeat(22, 1fr);
+}
