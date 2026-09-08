@@ -113,13 +113,18 @@ function enterWord() {
         element.classList.remove("guessing");
         if (letter == solution[index]) {
             result = "correct";
-        } else if (solution.includes(letter)) { // also check for duplicate letters !!!!
+        } else if (solution.includes(letter)) {
             result = checkDuplicateLetter(letter);
         } else {
             result = "incorrect";
         }
         element.classList.add(result);
-        document.querySelector(`.keyboard>#${letter}`).classList.add(result);
+        const key = document.querySelector(`.keyboard>#${letter}`);
+        if (key.classList.length == 1) {
+            key.classList.add(result);
+        } else if (!key.classList.contains("correct") && key.classList.contains("missed") && result == "correct") {
+            key.classList.add(result);
+        }
     });
 
     if (word == solution.join("")) {
