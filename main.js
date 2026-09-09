@@ -40,7 +40,7 @@ function showPopup(type) {
 
 function clickHandler(event) {
     if (!["enter", "delete"].includes(event.target.id) && currentTile) {
-        insertLetter(event.target);
+        insertLetter(event.target.id);
     } else if (event.target.id == "enter") {
         enterWord();
     } else if (event.target.id == "delete") {
@@ -48,8 +48,8 @@ function clickHandler(event) {
     }
 }
 
-function insertLetter(target) {
-    currentTile.textContent = target.id;
+function insertLetter(key) {
+    currentTile.textContent = key;
     currentTile.classList.add("guessing");
     const index = currentLine.indexOf(currentTile);
     if (index >= wordSize) {
@@ -168,9 +168,24 @@ function compileTileLines() {
     currentTile = currentLine[0];
 }
 
+function onKey(event) {
+    if (event.key == "Enter") {
+        enterWord();
+    } else if (event.key == "Backspace") {
+        deleteLetter();
+    } else if (keys[lang].includes(event.key)) {
+        insertLetter(event.key);
+    }
+}
+
+function setEvents() {
+    document.addEventListener("keydown", onKey);
+}
+
 function init() {
     compileKeyboard();
     compileTileLines();
+    setEvents();
 }
 
 setWord().then(() => {
