@@ -82,12 +82,19 @@ function getCurrentWord() {
     return word.toLowerCase();
 }
 
-function checkDuplicateLetter(letter) {
+function checkDuplicateLetter(letter, position) {
     let missedChecked = 0;
-     document.querySelectorAll(".tile").forEach(element => {
+    currentLine.forEach(element => {
         if (element.textContent.toLowerCase().trim() == letter && (element.classList.contains("missed") || element.classList.contains("correct"))) {
             missedChecked++
         }
+    });
+    tileLines.forEach(line => {
+        line.forEach((element, index) => {
+            if (!element.classList.contains("guessing") && element.textContent.toLowerCase().trim() == letter && element.classList.contains("correct") && index == position) {
+                missedChecked++
+            }
+        });
     });
     if (missedChecked < solution.filter(x => x==letter).length) {
         return "missed";
@@ -95,8 +102,47 @@ function checkDuplicateLetter(letter) {
     else {return "incorrect";}
 }
 
+function wiggleLine() {
+    currentLine.forEach(element => {
+        element.animate(
+            [
+                // keyframes
+                { transform: "translateX(5px)" },
+                { transform: "translateX(-5px)" },
+            ],
+            {
+                // timing options
+                duration: 80,
+                iterations: 3,
+                easing: "ease-in-out",
+                direction: "alternate"
+            },
+        );
+    });
+}
+
+function zoomLine() {
+    currentLine.forEach(element => {
+        element.animate(
+            [
+                // keyframes
+                { transform: "scale(1)" },
+                { transform: "scale(1.05)" },
+            ],
+            {
+                // timing options
+                duration: 180,
+                iterations: 1,
+                easing: "ease-in-out",
+                // direction: "alternate"
+            },
+        );
+    });
+}
+
 function enterWord() {
     if (document.querySelectorAll(".box>.guessing").length != 5) {
+        wiggleLine();
         showPopup("short");
         return;
     }
@@ -104,6 +150,7 @@ function enterWord() {
     const word = getCurrentWord();
     
     if (!valid.includes(word)) {
+        wiggleLine();
         showPopup("invalid");
         return;
     }
@@ -115,7 +162,7 @@ function enterWord() {
         if (letter == solution[index]) {
             result = "correct";
         } else if (solution.includes(letter)) {
-            result = checkDuplicateLetter(letter);
+            result = checkDuplicateLetter(letter, index);
         } else {
             result = "incorrect";
         }
@@ -134,6 +181,7 @@ function enterWord() {
     if (word == solution.join("")) {
         // end game win
         keyboard.classList.add("disabled")
+        zoomLine();
         showPopup("win");
     } else {
         const lineIndex = tileLines.indexOf(currentLine);
