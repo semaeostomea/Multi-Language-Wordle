@@ -13,6 +13,7 @@ const wordSize = 5;
 const maxGuesses = 6;
 let currentLine;
 let currentTile;
+let end;
 
 async function setWord() {
     const response = await fetch("files/words_en.json");
@@ -169,6 +170,9 @@ function compileTileLines() {
 }
 
 function onKey(event) {
+    if (keyboard.classList.contains("disabled")) {
+        return;
+    }
     if (event.key == "Enter") {
         enterWord();
     } else if (event.key == "Backspace") {
