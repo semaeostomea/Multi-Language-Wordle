@@ -83,7 +83,7 @@ function getCurrentWord() {
 
 function checkDuplicateLetter(letter) {
     let missedChecked = 0;
-     currentLine.forEach(element => {
+     document.querySelectorAll(".tile").forEach(element => {
         if (element.textContent.toLowerCase().trim() == letter && (element.classList.contains("missed") || element.classList.contains("correct"))) {
             missedChecked++
         }
